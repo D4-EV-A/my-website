@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f7f8ee">
+  <meta name="description" content="Shop fresh, delicious and affordable fruits at Rita Fruit Shop. Browse seasonal favourites, find a deal and fill your basket.">
+  <title>Rita Fruit Shop | Fresh fruit, happy days</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Nunito:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --green: #245c35;
+      --green-dark: #193f27;
+      --green-bright: #79a94b;
+      --lime: #eaf0d9;
+      --orange: #f28a39;
+      --yellow: #f6ca52;
+      --cream: #f7f8ee;
+      --paper: #fffefa;
+      --ink: #25332a;
+      --muted: #788177;
+      --line: #e9ebdf;
+      --shadow: 0 16px 46px rgba(37, 51, 42, .09);
+      --radius: 22px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 90px; }
+    body { margin: 0; color: var(--ink); background: var(--paper); font-family: "DM Sans", sans-serif; }
+    button, input, textarea { font: inherit; }
+    button, a { -webkit-tap-highlight-color: transparent; }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    .container { width: min(1160px, calc(100% - 44px)); margin-inline: auto; }
+    .eyebrow { color: var(--green-bright); font-size: .75rem; font-weight: 800; letter-spacing: .17em; text-transform: uppercase; }
+    .section-heading { max-width: 600px; margin: 0 auto 38px; text-align: center; }
+    .section-heading h2 { margin: 10px 0 12px; font: 800 clamp(2rem, 4vw, 3rem)/1.08 "Nunito", sans-serif; letter-spacing: -.045em; }
+    .section-heading p { max-width: 490px; margin: 0 auto; color: var(--muted); line-height: 1.7; }
+    .btn { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; gap: 9px; padding: 0 21px; border: 0; border-radius: 999px; background: var(--green); color: white; font-weight: 700; cursor: pointer; transition: transform .18s ease, background .18s ease, box-shadow .18s ease; }
+    .btn:hover { transform: translateY(-2px); background: var(--green-dark); box-shadow: 0 9px 20px rgba(36, 92, 53, .2); }
+    .btn-orange { background: var(--orange); color: #281c11; }
+    .btn-orange:hover { background: #e97828; }
+    .btn-outline { border: 1px solid var(--line); background: transparent; color: var(--green); }
+    .btn-outline:hover { background: var(--lime); box-shadow: none; }
+
+    .topbar { background: var(--green-dark); color: #fff; font-size: .77rem; }
+    .topbar-inner { display: flex; min-height: 37px; align-items: center; justify-content: space-between; gap: 12px; }
+    .topbar strong { color: var(--yellow); }
+    .topbar-note { opacity: .84; }
+    .header { position: sticky; z-index: 20; top: 0; border-bottom: 1px solid rgba(37, 51, 42, .06); background: rgba(255, 254, 250, .96); backdrop-filter: blur(14px); }
+    .nav { display: flex; min-height: 76px; align-items: center; justify-content: space-between; gap: 24px; }
+    .brand { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .brand-mark { display: grid; width: 42px; height: 42px; place-items: center; border-radius: 15px; background: var(--lime); font-size: 24px; }
+    .brand-name { color: var(--green); font: 900 1.12rem/1 "Nunito", sans-serif; letter-spacing: -.04em; }
+    .brand-name small { display: block; margin-top: 4px; color: var(--muted); font: 600 .65rem/1 "DM Sans", sans-serif; letter-spacing: .04em; }
+    .nav-links { display: flex; align-items: center; gap: clamp(14px, 2.2vw, 28px); }
+    .nav-links a { color: #4c594f; font-size: .84rem; font-weight: 600; transition: color .15s ease; }
+    .nav-links a:hover { color: var(--orange); }
+    .nav-actions { display: flex; align-items: center; gap: 12px; }
+    .cart-button { position: relative; display: inline-flex; min-height: 43px; align-items: center; gap: 8px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: white; color: var(--green); font-weight: 700; cursor: pointer; }
+    .cart-count { display: grid; min-width: 21px; height: 21px; place-items: center; padding-inline: 5px; border-radius: 50%; background: var(--orange); color: white; font-size: .7rem; }
+    .menu-toggle { display: none; width: 43px; height: 43px; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-size: 1.2rem; cursor: pointer; }
+
+    .hero { position: relative; overflow: hidden; padding: 68px 0 78px; background: var(--cream); }
+    .hero::before, .hero::after { position: absolute; border-radius: 50%; content: ""; pointer-events: none; }
+    .hero::before { top: -110px; right: -80px; width: 340px; height: 340px; background: rgba(246, 202, 82, .18); }
+    .hero::after { bottom: -180px; left: 34%; width: 310px; height: 310px; background: rgba(121, 169, 75, .1); }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 54px; }
+    .hero-copy { max-width: 550px; }
+    .hero-kicker { display: inline-flex; align-items: center; gap: 8px; padding: 8px 13px; border: 1px solid #e6e9d8; border-radius: 999px; background: rgba(255,255,255,.75); color: var(--green); font-size: .76rem; font-weight: 700; }
+    .hero h1 { margin: 19px 0 18px; color: var(--green-dark); font: 900 clamp(3rem, 6vw, 5rem)/.99 "Nunito", sans-serif; letter-spacing: -.065em; }
+    .hero h1 em { color: var(--orange); font-style: normal; }
+    .hero-copy > p { max-width: 480px; color: #6b756d; font-size: 1.03rem; line-height: 1.8; }
+    .hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 25px; }
+    .hero-meta { display: flex; align-items: center; gap: 13px; margin-top: 30px; color: var(--muted); font-size: .78rem; }
+    .avatars { display: flex; padding-left: 5px; }
+    .avatars span { display: grid; width: 31px; height: 31px; margin-left: -5px; place-items: center; border: 2px solid var(--cream); border-radius: 50%; background: #fbdcba; font-size: 15px; }
+    .hero-visual { position: relative; min-height: 410px; }
+    .hero-image { position: absolute; inset: 8px 24px 12px 0; overflow: hidden; border-radius: 47% 47% 27px 27px; background: #dde7c8; box-shadow: var(--shadow); }
+    .hero-image img { width: 100%; height: 100%; object-fit: cover; }
+    .hero-image::after { position: absolute; inset: 48% 0 0; background: linear-gradient(transparent, rgba(28, 54, 35, .39)); content: ""; }
+    .image-caption { position: absolute; z-index: 1; right: 24px; bottom: 28px; left: 28px; color: white; }
+    .image-caption strong { display: block; font: 800 1.3rem "Nunito", sans-serif; }
+    .image-caption span { font-size: .79rem; opacity: .9; }
+    .floating-price { position: absolute; z-index: 2; top: 45px; right: 0; padding: 13px 17px; transform: rotate(5deg); border: 4px solid white; border-radius: 18px; background: var(--yellow); color: var(--green-dark); box-shadow: var(--shadow); font: 900 1rem "Nunito", sans-serif; }
+    .floating-price small { display: block; font: 700 .66rem "DM Sans", sans-serif; }
+    .floating-fruit { position: absolute; z-index: 2; bottom: 38px; left: -21px; display: grid; width: 67px; height: 67px; place-items: center; border: 5px solid white; border-radius: 50%; background: var(--lime); box-shadow: var(--shadow); font-size: 32px; }
+
+    .benefits { padding: 30px 0; border-bottom: 1px solid var(--line); background: white; }
+    .benefit-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; }
+    .benefit { display: flex; align-items: center; justify-content: center; gap: 11px; padding: 8px; }
+    .benefit-icon { display: grid; width: 43px; height: 43px; flex: 0 0 auto; place-items: center; border-radius: 15px; background: var(--cream); font-size: 21px; }
+    .benefit strong { display: block; color: var(--green-dark); font: 800 .85rem "Nunito", sans-serif; }
+    .benefit small { display: block; margin-top: 3px; color: var(--muted); font-size: .7rem; }
+
+    .shop-section { padding: 82px 0 88px; }
+    .shop-tools { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 25px; }
+    .search-wrap { position: relative; width: min(350px, 100%); }
+    .search-wrap span { position: absolute; top: 50%; left: 15px; transform: translateY(-50%); color: #8c958c; font-size: 1rem; pointer-events: none; }
+    .search-wrap input { width: 100%; height: 47px; padding: 0 15px 0 43px; outline: none; border: 1px solid var(--line); border-radius: 999px; background: var(--cream); color: var(--ink); }
+    .search-wrap input:focus { border-color: var(--green-bright); box-shadow: 0 0 0 3px rgba(121, 169, 75, .14); }
+    .filters { display: flex; flex-wrap: wrap; gap: 8px; }
+    .filter-chip { min-height: 38px; padding: 0 15px; border: 1px solid var(--line); border-radius: 999px; background: white; color: #647064; font-size: .78rem; font-weight: 700; cursor: pointer; transition: .15s ease; }
+    .filter-chip:hover, .filter-chip.active { border-color: var(--green); background: var(--green); color: white; }
+    .product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+    .product-card { overflow: hidden; border: 1px solid #edf0e7; border-radius: 19px; background: white; transition: transform .2s ease, box-shadow .2s ease; }
+    .product-card:hover { transform: translateY(-5px); box-shadow: var(--shadow); }
+    .product-image { position: relative; overflow: hidden; height: 185px; background: var(--cream); }
+    .product-image img { width: 100%; height: 100%; object-fit: cover; transition: transform .35s ease; }
+    .product-card:hover .product-image img { transform: scale(1.05); }
+    .product-tag { position: absolute; top: 12px; left: 12px; padding: 6px 10px; border-radius: 999px; background: white; color: var(--green); font-size: .65rem; font-weight: 800; }
+    .product-info { padding: 16px; }
+    .product-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+    .product-title-row h3 { margin: 0; color: var(--green-dark); font: 800 1.04rem "Nunito", sans-serif; }
+    .rating { color: #d99a22; font-size: .74rem; white-space: nowrap; }
+    .product-info p { margin: 6px 0 14px; color: var(--muted); font-size: .74rem; }
+    .product-bottom { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .price { color: var(--green); font: 900 1rem "Nunito", sans-serif; }
+    .price small { color: var(--muted); font: 500 .69rem "DM Sans", sans-serif; }
+    .add-btn { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; border: 0; border-radius: 50%; background: var(--lime); color: var(--green); font-size: 1.2rem; font-weight: 700; cursor: pointer; transition: .15s ease; }
+    .add-btn:hover { background: var(--green); color: white; transform: scale(1.06); }
+    .empty-state { display: none; padding: 48px 15px; color: var(--muted); text-align: center; }
+    .empty-state span { display: block; margin-bottom: 12px; font-size: 2.4rem; }
+
+    .category-section { padding: 76px 0 83px; background: var(--cream); }
+    .category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 17px; }
+    .category-card { position: relative; display: flex; min-height: 175px; overflow: hidden; align-items: flex-end; padding: 20px; border-radius: 19px; background: var(--lime); isolation: isolate; transition: transform .18s ease; }
+    .category-card:hover { transform: translateY(-4px); }
+    .category-card::after { position: absolute; z-index: -1; inset: 35% 0 0; background: linear-gradient(transparent, rgba(27, 49, 31, .75)); content: ""; }
+    .category-card img { position: absolute; z-index: -2; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .category-card span { color: white; font: 800 1.15rem "Nunito", sans-serif; }
+    .category-card small { display: block; margin-top: 4px; color: rgba(255,255,255,.85); font: 500 .72rem "DM Sans", sans-serif; }
+
+    .about-section { padding: 90px 0; }
+    .about-grid { display: grid; grid-template-columns: .95fr 1.05fr; align-items: center; gap: 70px; }
+    .about-photo { position: relative; min-height: 395px; }
+    .about-photo img { width: 100%; height: 395px; object-fit: cover; border-radius: 25px; }
+    .about-badge { position: absolute; right: -19px; bottom: 22px; display: grid; width: 106px; height: 106px; place-items: center; border: 6px solid white; border-radius: 50%; background: var(--yellow); color: var(--green-dark); text-align: center; font: 900 .85rem/1.1 "Nunito", sans-serif; transform: rotate(8deg); }
+    .about-copy h2 { margin: 11px 0 16px; color: var(--green-dark); font: 900 clamp(2rem, 4vw, 3rem)/1.08 "Nunito", sans-serif; letter-spacing: -.045em; }
+    .about-copy > p { color: var(--muted); line-height: 1.8; }
+    .about-points { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin: 24px 0 27px; }
+    .about-point { display: flex; gap: 10px; align-items: flex-start; color: var(--green); font-size: .8rem; font-weight: 700; }
+    .about-point span:first-child { font-size: 1.15rem; }
+
+    .offer-section { padding: 78px 0; background: var(--green); color: white; }
+    .offer-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 32px; }
+    .offer-section .eyebrow { color: var(--yellow); }
+    .offer-section h2 { max-width: 640px; margin: 10px 0; font: 900 clamp(2rem, 4vw, 3.2rem)/1.08 "Nunito", sans-serif; letter-spacing: -.04em; }
+    .offer-section p { margin: 0; color: rgba(255,255,255,.75); line-height: 1.7; }
+    .offer-code { min-width: 205px; padding: 19px 23px; transform: rotate(2deg); border: 2px dashed rgba(255,255,255,.53); border-radius: 18px; background: rgba(255,255,255,.09); text-align: center; }
+    .offer-code small { display: block; color: var(--yellow); font-size: .68rem; font-weight: 800; letter-spacing: .13em; }
+    .offer-code strong { display: block; margin: 5px 0; color: white; font: 900 1.65rem "Nunito", sans-serif; letter-spacing: .08em; }
+    .offer-code span { color: rgba(255,255,255,.75); font-size: .7rem; }
+
+    .contact-section { padding: 82px 0; background: #fff; }
+    .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 55px; }
+    .contact-copy h2 { margin: 10px 0 14px; color: var(--green-dark); font: 900 clamp(2rem, 4vw, 3rem)/1.08 "Nunito", sans-serif; letter-spacing: -.04em; }
+    .contact-copy > p { color: var(--muted); line-height: 1.75; }
+    .contact-list { display: grid; gap: 15px; margin-top: 28px; }
+    .contact-item { display: flex; gap: 13px; align-items: flex-start; }
+    .contact-icon { display: grid; width: 43px; height: 43px; flex: 0 0 auto; place-items: center; border-radius: 14px; background: var(--lime); font-size: 20px; }
+    .contact-item strong { display: block; margin: 2px 0 4px; color: var(--green-dark); font: 800 .88rem "Nunito", sans-serif; }
+    .contact-item span, .contact-item a { color: var(--muted); font-size: .78rem; line-height: 1.5; }
+    .hours-card { padding: 26px; border: 1px solid var(--line); border-radius: 20px; background: var(--cream); }
+    .hours-card h3 { margin: 0 0 5px; color: var(--green-dark); font: 900 1.25rem "Nunito", sans-serif; }
+    .hours-card > p { margin: 0 0 19px; color: var(--muted); font-size: .78rem; }
+    .hours-row { display: flex; justify-content: space-between; gap: 15px; padding: 14px 0; border-bottom: 1px solid #e5e9d9; font-size: .82rem; }
+    .hours-row:last-of-type { border: 0; }
+    .hours-row strong { color: var(--green); }
+    .hours-note { margin-top: 18px; padding: 12px 14px; border-radius: 12px; background: white; color: var(--muted); font-size: .73rem; line-height: 1.5; }
+    .contact-form { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; margin-top: 18px; }
+    .contact-form input, .contact-form textarea { width: 100%; min-height: 45px; padding: 12px 13px; outline: none; border: 1px solid var(--line); border-radius: 11px; background: white; color: var(--ink); font-size: .8rem; }
+    .contact-form input:focus, .contact-form textarea:focus { border-color: var(--green-bright); }
+    .contact-form textarea { grid-column: 1 / -1; min-height: 85px; resize: vertical; }
+    .contact-form .btn { grid-column: 1 / -1; justify-self: start; }
+
+    .footer { padding: 31px 0; background: #6b7b3a; color: rgba(255,255,255,.76); font-size: .75rem; }
+    .footer-inner { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+    .footer .brand-name { color: white; }
+    .footer .brand-name small { color: rgba(255,255,255,.63); }
+    .footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
+    .footer-links a:hover { color: var(--yellow); }
+
+    .overlay { position: fixed; z-index: 50; inset: 0; display: none; justify-content: flex-end; background: rgba(19, 34, 24, .45); }
+    .overlay.open { display: flex; }
+    .cart-panel { display: flex; width: min(430px, 100%); height: 100%; flex-direction: column; padding: 24px; background: var(--paper); box-shadow: -15px 0 50px rgba(0,0,0,.15); animation: slide-in .22s ease-out; }
+    @keyframes slide-in { from { transform: translateX(25px); opacity: .6; } to { transform: translateX(0); opacity: 1; } }
+    .panel-heading { display: flex; align-items: center; justify-content: space-between; padding-bottom: 17px; border-bottom: 1px solid var(--line); }
+    .panel-heading h2 { margin: 0; color: var(--green-dark); font: 900 1.5rem "Nunito", sans-serif; }
+    .close-button { display: grid; width: 38px; height: 38px; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--green); font-size: 1.2rem; cursor: pointer; }
+    .cart-items { flex: 1; overflow: auto; padding: 12px 0; }
+    .cart-empty { padding: 55px 10px; color: var(--muted); text-align: center; }
+    .cart-empty span { display: block; margin-bottom: 10px; font-size: 2.5rem; }
+    .cart-line { display: grid; grid-template-columns: 63px 1fr auto; align-items: center; gap: 12px; padding: 13px 0; border-bottom: 1px solid var(--line); }
+    .cart-line img { width: 63px; height: 63px; border-radius: 13px; object-fit: cover; }
+    .cart-line strong { display: block; color: var(--green-dark); font: 800 .9rem "Nunito", sans-serif; }
+    .cart-line small { display: block; margin-top: 4px; color: var(--muted); font-size: .72rem; }
+    .quantity { display: flex; align-items: center; gap: 8px; margin-top: 7px; }
+    .quantity button { display: grid; width: 23px; height: 23px; place-items: center; border: 1px solid var(--line); border-radius: 50%; background: white; color: var(--green); cursor: pointer; }
+    .quantity span { font-size: .75rem; font-weight: 700; }
+    .line-total { align-self: start; color: var(--green); font: 800 .82rem "Nunito", sans-serif; }
+    .cart-summary { padding-top: 17px; border-top: 1px solid var(--line); }
+    .summary-row { display: flex; justify-content: space-between; margin-bottom: 15px; color: var(--muted); font-size: .85rem; }
+    .summary-row strong { color: var(--green-dark); font: 900 1.1rem "Nunito", sans-serif; }
+    .cart-summary .btn { width: 100%; }
+    .toast { position: fixed; z-index: 70; right: 20px; bottom: 20px; max-width: calc(100% - 40px); padding: 14px 19px; transform: translateY(15px); border-radius: 13px; background: var(--green-dark); color: white; box-shadow: var(--shadow); font-size: .85rem; opacity: 0; pointer-events: none; transition: .2s ease; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .checkout-modal { position: fixed; z-index: 60; inset: 0; display: none; align-items: center; justify-content: center; padding: 20px; background: rgba(19, 34, 24, .55); }
+    .checkout-modal.open { display: flex; }
+    .checkout-box { width: min(460px, 100%); max-height: 90vh; overflow: auto; padding: 25px; border-radius: 20px; background: var(--paper); box-shadow: var(--shadow); }
+    .checkout-box h2 { margin: 0 0 6px; color: var(--green-dark); font: 900 1.55rem "Nunito", sans-serif; }
+    .checkout-box > p { margin: 0 0 18px; color: var(--muted); font-size: .8rem; line-height: 1.55; }
+    .checkout-form { display: grid; gap: 12px; }
+    .checkout-form input, .checkout-form textarea { width: 100%; padding: 12px 13px; outline: none; border: 1px solid var(--line); border-radius: 11px; background: white; font-size: .84rem; }
+    .checkout-form textarea { min-height: 75px; resize: vertical; }
+    .checkout-actions { display: flex; gap: 9px; }
+    .checkout-actions > * { flex: 1; }
+    .confirmation { display: none; padding: 15px; border-radius: 13px; background: var(--lime); color: var(--green-dark); font-size: .84rem; line-height: 1.6; }
+    .confirmation.show { display: block; }
+
+    @media (max-width: 970px) {
+      .nav-links { gap: 13px; }
+      .nav-links a { font-size: .77rem; }
+      .product-grid { grid-template-columns: repeat(3, 1fr); }
+      .hero-grid { gap: 30px; }
+      .about-grid { gap: 45px; }
+    }
+    @media (max-width: 760px) {
+      .container { width: min(100% - 34px, 560px); }
+      .topbar-inner { justify-content: center; min-height: 34px; font-size: .68rem; text-align: center; }
+      .topbar-note { display: none; }
+      .nav { min-height: 66px; }
+      .nav-actions { margin-left: auto; }
+      .menu-toggle { display: grid; }
+      .nav-links { position: absolute; top: calc(100% + 1px); right: 0; left: 0; display: none; align-items: stretch; gap: 0; padding: 8px 22px 15px; border-bottom: 1px solid var(--line); background: var(--paper); box-shadow: 0 12px 20px rgba(37,51,42,.06); }
+      .nav-links.open { display: flex; flex-direction: column; }
+      .nav-links a { padding: 12px 2px; border-bottom: 1px solid var(--line); font-size: .9rem; }
+      .nav-links a:last-child { border-bottom: 0; }
+      .cart-button { min-height: 41px; padding: 0 10px; font-size: .8rem; }
+      .hero { padding: 48px 0 53px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 28px; }
+      .hero-copy { text-align: center; }
+      .hero-copy > p { margin-inline: auto; }
+      .hero-buttons, .hero-meta { justify-content: center; }
+      .hero-visual { min-height: 340px; width: min(440px, 100%); margin: 0 auto; }
+      .hero-image { inset: 4px 20px 10px 0; }
+      .benefit-row { grid-template-columns: 1fr 1fr; gap: 10px 3px; }
+      .benefit { justify-content: flex-start; }
+      .shop-section, .contact-section { padding: 65px 0; }
+      .section-heading { margin-bottom: 28px; }
+      .shop-tools { align-items: stretch; }
+      .search-wrap { width: 100%; }
+      .filters { flex-wrap: nowrap; overflow-x: auto; padding: 2px 0 6px; }
+      .filter-chip { flex: 0 0 auto; }
+      .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .product-image { height: 150px; }
+      .product-info { padding: 12px; }
+      .product-title-row { display: block; }
+      .rating { display: block; margin-top: 4px; }
+      .category-section { padding: 65px 0; }
+      .category-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+      .category-card { min-height: 150px; padding: 15px; }
+      .about-section { padding: 66px 0; }
+      .about-grid { grid-template-columns: 1fr; gap: 35px; }
+      .about-photo { min-height: 290px; }
+      .about-photo img { height: 290px; }
+      .about-badge { right: -7px; width: 88px; height: 88px; font-size: .75rem; }
+      .offer-section { padding: 60px 0; }
+      .offer-inner { grid-template-columns: 1fr; text-align: center; }
+      .offer-code { justify-self: center; }
+      .contact-grid { grid-template-columns: 1fr; gap: 33px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 390px) {
+      .brand-name { font-size: 1rem; }
+      .brand-mark { width: 38px; height: 38px; }
+      .cart-button .cart-label { display: none; }
+      .hero h1 { font-size: 2.75rem; }
+      .product-image { height: 125px; }
+      .product-info p { font-size: .68rem; }
+      .about-points { grid-template-columns: 1fr; gap: 11px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="container topbar-inner">
+      <span>🌿 <strong>Fresh picks, happy prices</strong> — fruit goodness for every budget</span>
+      <span class="topbar-note">Open today · 6:00–10:00 AM &amp; 4:00–6:00 PM</span>
+    </div>
+  </div>
+  <header class="header">
+    <nav class="container nav" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Rita Fruit Shop home">
+        <span class="brand-mark" aria-hidden="true">🍊</span>
+        <span class="brand-name">Rita fruit shop<small>FRESH FRUIT. FAIR PRICES.</small></span>
+      </a>
+      <div class="nav-links" id="navLinks">
+        <a href="#home">Home</a>
+        <a href="#about">About us</a>
+        <a href="#fruits">Our fruits</a>
+        <a href="#categories">Categories</a>
+        <a href="#offers">Offers</a>
+        <a href="#contact">Contact</a>
+      </div>
+      <div class="nav-actions">
+        <button class="cart-button" id="openCart" aria-label="Open shopping cart">
+          <span aria-hidden="true">🛒</span><span class="cart-label">Cart</span><span class="cart-count" id="cartCount">0</span>
+        </button>
+        <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" aria-expanded="false">☰</button>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="container hero-grid">
+        <div class="hero-copy">
+          <span class="hero-kicker">🍃 Picked fresh, priced fair</span>
+          <h1>A little more<br>fruit. A lot more <em>happy.</em></h1>
+          <p>Good-for-you fruit that’s easy on your wallet. Find family favourites, discover something new, and bring home a fresh start.</p>
+          <div class="hero-buttons">
+            <a class="btn" href="#fruits">Shop fresh fruit <span aria-hidden="true">→</span></a>
+            <a class="btn btn-outline" href="#offers">See this week’s offers</a>
+          </div>
+          <div class="hero-meta">
+            <div class="avatars" aria-hidden="true"><span>👩🏽</span><span>👨🏻</span><span>👧🏾</span></div>
+            <span><strong>Fresh choices for everyone</strong><br>Families · students · fruit lovers</span>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="hero-image">
+            <img src="https://images.unsplash.com/photo-1619566636858-adf3ef46400b?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="A colourful basket of fresh fruit" fetchpriority="high">
+            <div class="image-caption"><strong>Freshness you can taste</strong><span>Everyday goodness, straight to your table</span></div>
+          </div>
+          <div class="floating-price">From ₹40<small>FRESH &amp; AFFORDABLE</small></div>
+          <div class="floating-fruit" aria-hidden="true">🍎</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefits" aria-label="Why shop with us">
+      <div class="container benefit-row">
+        <div class="benefit"><span class="benefit-icon">🌱</span><span><strong>Fresh every day</strong><small>Carefully chosen produce</small></span></div>
+        <div class="benefit"><span class="benefit-icon">💚</span><span><strong>Easy on your budget</strong><small>Everyday fair prices</small></span></div>
+        <div class="benefit"><span class="benefit-icon">🍉</span><span><strong>Something for everyone</strong><small>Family and student picks</small></span></div>
+        <div class="benefit"><span class="benefit-icon">🕒</span><span><strong>Two daily shop windows</strong><small>Morning &amp; evening hours</small></span></div>
+      </div>
+    </section>
+
+    <section class="shop-section" id="fruits">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Good things grow here</span>
+          <h2>Fresh fruit, fair prices</h2>
+          <p>Pick your favourites, find a new one to love, and add a little colour to your day.</p>
+        </div>
+        <div class="shop-tools">
+          <label class="search-wrap"><span aria-hidden="true">⌕</span><input id="fruitSearch" type="search" placeholder="Search for a fruit..." aria-label="Search fruits"></label>
+          <div class="filters" id="filters" aria-label="Filter fruits by category">
+            <button class="filter-chip active" data-category="all">All fruits</button>
+            <button class="filter-chip" data-category="citrus">Citrus</button>
+            <button class="filter-chip" data-category="tropical">Tropical</button>
+            <button class="filter-chip" data-category="berries">Berries</button>
+            <button class="filter-chip" data-category="everyday">Everyday</button>
+          </div>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+        <div class="empty-state" id="emptyState"><span>🍐</span>No fruit found. Try another name or category.</div>
+      </div>
+    </section>
+
+    <section class="category-section" id="categories">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">A colourful little something</span>
+          <h2>Shop by fruit mood</h2>
+          <p>From sunny citrus to tropical treats, there’s always something good to bring home.</p>
+        </div>
+        <div class="category-grid">
+          <a class="category-card" href="#fruits" data-shop-category="citrus">
+            <img src="https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" loading="lazy">
+            <span>Sunny citrus<small>Brighten your day</small></span>
+          </a>
+          <a class="category-card" href="#fruits" data-shop-category="tropical">
+            <img src="https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" loading="lazy">
+            <span>Tropical treats<small>A little taste of sunshine</small></span>
+          </a>
+          <a class="category-card" href="#fruits" data-shop-category="berries">
+            <img src="https://images.unsplash.com/photo-1498557850523-fd3d118b962e?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" loading="lazy">
+            <span>Berry lovely<small>Small, sweet, delicious</small></span>
+          </a>
+          <a class="category-card" href="#fruits" data-shop-category="everyday">
+            <img src="https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&amp;fit=crop&amp;w=600&amp;q=80" alt="" loading="lazy">
+            <span>Everyday favourites<small>Goodness for every day</small></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section" id="about">
+      <div class="container about-grid">
+        <div class="about-photo">
+          <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&amp;fit=crop&amp;w=1000&amp;q=85" alt="Fresh produce carefully arranged at the market" loading="lazy">
+          <div class="about-badge">GOOD FRUIT<br>GOOD MOOD<br>EVERY DAY</div>
+        </div>
+        <div class="about-copy">
+          <span class="eyebrow">A little about us</span>
+          <h2>Fresh fruit should feel good for everyone.</h2>
+          <p>At Rita Fruit Shop, we believe eating well shouldn’t cost a fortune. We bring together fresh, colourful favourites and friendly prices, so families, students and neighbours can enjoy a little more goodness every day.</p>
+          <div class="about-points">
+            <div class="about-point"><span>✓</span><span>Fresh fruit chosen with care</span></div>
+            <div class="about-point"><span>✓</span><span>Prices that fit everyday budgets</span></div>
+            <div class="about-point"><span>✓</span><span>Options for every kind of fruit lover</span></div>
+            <div class="about-point"><span>✓</span><span>A friendly neighbourhood shop</span></div>
+          </div>
+          <a class="btn" href="#contact">Come say hello <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="offer-section" id="offers">
+      <div class="container offer-inner">
+        <div>
+          <span class="eyebrow">A little extra goodness</span>
+          <h2>More fruit, more smiles. Save ₹20 on orders over ₹300.</h2>
+          <p>Fill your fruit bowl with fresh favourites and enjoy a little thank-you from us.</p>
+        </div>
+        <div class="offer-code"><small>YOUR LITTLE DEAL</small><strong>FRESH20</strong><span>₹20 off orders above ₹300</span></div>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">We’d love to hear from you</span>
+          <h2>Come by or say hello</h2>
+          <p>Questions about what’s fresh? Get in touch or visit us during our shop hours.</p>
+        </div>
+        <div class="contact-grid">
+          <div class="contact-copy">
+            <h2>Your neighbourhood fruit stop.</h2>
+            <p>We’re here to help you find something fresh, delicious and just right for your budget.</p>
+            <div class="contact-list">
+              <div class="contact-item"><span class="contact-icon">📍</span><span><strong>Find our shop</strong><span>Gandhi Salai, Chennai</span></span></div>
+              <div class="contact-item"><span class="contact-icon">✉️</span><span><strong>Email us</strong><a href="mailto:ritafruitshop@gmail.com">ritafruitshop@gmail.com</a></span></div>
+              <div class="contact-item"><span class="contact-icon">💬</span><span><strong>Chat with us</strong><a class="btn btn-orange" href="https://wa.me/91987654321" target="_blank" rel="noopener noreferrer" aria-label="Chat with Rita Fruit Shop on WhatsApp">Message us on WhatsApp</a></span></div>
+            </div>
+          </div>
+          <div class="hours-card">
+            <h3>Shop timing</h3>
+            <p>We’re open twice a day to bring you fresh fruit.</p>
+            <div class="hours-row"><span>☀️ Morning</span><strong>6:00 AM – 10:00 AM</strong></div>
+            <div class="hours-row"><span>🌇 Evening</span><strong>4:00 PM – 6:00 PM</strong></div>
+            <div class="hours-note">Hours may vary on holidays. Please check with us before making a special trip.</div>
+            <form class="contact-form" id="contactForm">
+              <input name="name" type="text" placeholder="Your name" aria-label="Your name" required>
+              <input name="email" type="email" placeholder="Email address" aria-label="Email address" required>
+              <textarea name="message" placeholder="How can we help?" aria-label="Your message" required></textarea>
+              <button class="btn" type="submit">Send a message <span aria-hidden="true">→</span></button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-inner">
+      <a class="brand" href="#home">
+        <span class="brand-mark" aria-hidden="true">🍊</span>
+        <span class="brand-name">Rita fruit shop<small>FRESH FRUIT. FAIR PRICES.</small></span>
+      </a>
+      <div>© <span id="year"></span> Rita Fruit Shop · Made with a little sunshine 🍋</div>
+      <div class="footer-links"><a href="#about">About</a><a href="#fruits">Shop fruit</a><a href="#offers">Offers</a><a href="#contact">Contact</a></div>
+    </div>
+  </footer>
+
+  <div class="overlay" id="cartOverlay" aria-hidden="true">
+    <aside class="cart-panel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+      <div class="panel-heading"><h2 id="cartTitle">Your fruit basket</h2><button class="close-button" id="closeCart" aria-label="Close shopping cart">×</button></div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-summary">
+        <div class="summary-row"><span>Subtotal</span><strong id="cartSubtotal">₹0</strong></div>
+        <button class="btn" id="checkoutButton">Buy now <span aria-hidden="true">→</span></button>
+      </div>
+    </aside>
+  </div>
+
+  <div class="checkout-modal" id="checkoutModal" aria-hidden="true">
+    <div class="checkout-box" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+      <div class="panel-heading"><h2 id="checkoutTitle">Place your order</h2><button class="close-button" id="closeCheckout" aria-label="Close checkout">×</button></div>
+      <p>Your basket is ready! Share your details and we’ll prepare your order. (Online payment and order submission need to be connected before launch.)</p>
+      <form class="checkout-form" id="checkoutForm">
+        <input name="customer" type="text" placeholder="Your name" aria-label="Your name" required>
+        <input name="phone" type="tel" placeholder="Phone number" aria-label="Phone number" required>
+        <textarea name="address" placeholder="Delivery or pickup address" aria-label="Delivery or pickup address" required></textarea>
+        <div class="checkout-actions"><button class="btn btn-outline" type="button" id="cancelCheckout">Back to basket</button><button class="btn" type="submit">Place order</button></div>
+      </form>
+      <div class="confirmation" id="orderConfirmation" role="status"></div>
+    </div>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    const products = [
+      { id: "apple", name: "Red Apples", category: "everyday", price: 120, unit: "per kg", tag: "Crisp & juicy", rating: "★ 4.9", image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6cbd6?auto=format&fit=crop&w=700&q=80" },
+      { id: "banana", name: "Sweet Bananas", category: "tropical", price: 50, unit: "per dozen", tag: "Everyday pick", rating: "★ 4.8", image: "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?auto=format&fit=crop&w=700&q=80" },
+      { id: "orange", name: "Juicy Oranges", category: "citrus", price: 80, unit: "per kg", tag: "Vitamin C boost", rating: "★ 4.9", image: "https://images.unsplash.com/photo-1547514701-42782101795e?auto=format&fit=crop&w=700&q=80" },
+      { id: "mango", name: "Golden Mangoes", category: "tropical", price: 100, unit: "per kg", tag: "Seasonal favourite", rating: "★ 5.0", image: "https://images.unsplash.com/photo-1553279768-865429fa0078?auto=format&fit=crop&w=700&q=80" },
+      { id: "grapes", name: "Green Grapes", category: "everyday", price: 90, unit: "per kg", tag: "A sweet little snack", rating: "★ 4.8", image: "https://images.unsplash.com/photo-1537640538966-79f369143f8f?auto=format&fit=crop&w=700&q=80" },
+      { id: "strawberry", name: "Fresh Strawberries", category: "berries", price: 100, unit: "per pack", tag: "Berry lovely", rating: "★ 4.9", image: "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?auto=format&fit=crop&w=700&q=80" },
+      { id: "watermelon", name: "Watermelon", category: "tropical", price: 40, unit: "each", tag: "Cool & refreshing", rating: "★ 4.8", image: "https://images.unsplash.com/photo- watermelon" },
+      { id: "pineapple", name: "Pineapple", category: "tropical", price: 80, unit: "each", tag: "Tropical sunshine", rating: "★ 4.7", image: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=700&q=80" },
+      { id: "lemon", name: "Fresh Lemons", category: "citrus", price: 40, unit: "per 6", tag: "A zesty favourite", rating: "★ 4.8", image: "https://images.unsplash.com/photo-1590502593747-42a996133562?auto=format&fit=crop&w=700&q=80" },
+      { id: "pear", name: "Juicy Pears", category: "everyday", price: 95, unit: "per kg", tag: "Sweet & mellow", rating: "★ 4.7", image: "https://images.unsplash.com/photo-1514756331096-242fdeb70d4a?auto=format&fit=crop&w=700&q=80" },
+      { id: "papaya", name: "Ripe Papaya", category: "tropical", price: 60, unit: "each", tag: "Gentle goodness", rating: "★ 4.7", image: "https://images.unsplash.com/photo-1517282009859-f000ec3b26fe?auto=format&fit=crop&w=700&q=80" },
+      { id: "blueberry", name: "Blueberries", category: "berries", price: 100, unit: "per pack", tag: "Little blue gems", rating: "★ 4.9", image: "https://images.unsplash.com/photo-1498557850523-fd3d118b962e?auto=format&fit=crop&w=700&q=80" }
+    ];
+
+    const CART_STORAGE_KEY = "rita-fruit-shop-cart";
+    let activeCategory = "all";
+    let cart = loadCart();
+    let toastTimer;
+
+    function loadCart() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(CART_STORAGE_KEY) || "[]");
+        return Array.isArray(saved) ? saved.filter(item => products.some(product => product.id === item.id) && Number.isInteger(item.quantity) && item.quantity > 0) : [];
+      } catch (error) {
+        console.warn("Could not load the saved basket.", error);
+        return [];
+      }
+    }
+
+    function saveCart() {
+      try {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart));
+      } catch (error) {
+        console.warn("Could not save the basket in this browser.", error);
+      }
+    }
+
+    function formatPrice(amount) {
+      return "₹" + amount.toLocaleString("en-IN");
+    }
+
+    function renderProducts() {
+      const query = document.getElementById("fruitSearch").value.trim().toLowerCase();
+      const visibleProducts = products.filter(product =>
+        (activeCategory === "all" || product.category === activeCategory) &&
+        product.name.toLowerCase().includes(query)
+      );
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = visibleProducts.map(product => `
+        <article class="product-card">
+          <div class="product-image">
+            <img src="${product.image}" alt="${product.name}" loading="lazy">
+            <span class="product-tag">${product.tag}</span>
+          </div>
+          <div class="product-info">
+            <div class="product-title-row"><h3>${product.name}</h3><span class="rating">${product.rating}</span></div>
+            <p>Fresh, delicious &amp; ready to enjoy</p>
+            <div class="product-bottom">
+              <span class="price">${formatPrice(product.price)} <small>/${product.unit.replace("per ", "")}</small></span>
+              <button class="add-btn" data-add="${product.id}" aria-label="Add ${product.name} to cart">+</button>
+            </div>
+          </div>
+        </article>`).join("");
+      document.getElementById("emptyState").style.display = visibleProducts.length ? "none" : "block";
+    }
+
+    function updateCart() {
+      const count = cart.reduce((total, item) => total + item.quantity, 0);
+      const subtotal = cart.reduce((total, item) => {
+        const product = products.find(entry => entry.id === item.id);
+        return total + (product ? product.price * item.quantity : 0);
+      }, 0);
+      document.getElementById("cartCount").textContent = count;
+      document.getElementById("cartSubtotal").textContent = formatPrice(subtotal);
+      const items = document.getElementById("cartItems");
+      if (!cart.length) {
+        items.innerHTML = '<div class="cart-empty"><span>🧺</span>Your basket is waiting for something fresh.</div>';
+      } else {
+        items.innerHTML = cart.map(item => {
+          const product = products.find(entry => entry.id === item.id);
+          if (!product) return "";
+          return `<div class="cart-line">
+            <img src="${product.image}" alt="">
+            <div><strong>${product.name}</strong><small>${formatPrice(product.price)} / ${product.unit.replace("per ", "")}</small>
+              <div class="quantity"><button data-quantity="${product.id}" data-change="-1" aria-label="Remove one ${product.name}">−</button><span>${item.quantity}</span><button data-quantity="${product.id}" data-change="1" aria-label="Add one ${product.name}">+</button></div>
+            </div>
+            <span class="line-total">${formatPrice(product.price * item.quantity)}</span>
+          </div>`;
+        }).join("");
+      }
+      saveCart();
+    }
+
+    function showToast(message) {
+      const toast = document.getElementById("toast");
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2300);
+    }
+
+    function addToCart(id) {
+      const product = products.find(item => item.id === id);
+      if (!product) return;
+      const item = cart.find(entry => entry.id === id);
+      if (item) item.quantity += 1;
+      else cart.push({ id, quantity: 1 });
+      updateCart();
+      showToast(`${product.name} added to your basket`);
+    }
+
+    function openCart() {
+      document.getElementById("cartOverlay").classList.add("open");
+      document.getElementById("cartOverlay").setAttribute("aria-hidden", "false");
+      document.getElementById("closeCart").focus();
+    }
+
+    function closeCart() {
+      document.getElementById("cartOverlay").classList.remove("open");
+      document.getElementById("cartOverlay").setAttribute("aria-hidden", "true");
+    }
+
+    function openCheckout() {
+      if (!cart.length) {
+        showToast("Add some fresh fruit to your basket first");
+        return;
+      }
+      document.getElementById("checkoutModal").classList.add("open");
+      document.getElementById("checkoutModal").setAttribute("aria-hidden", "false");
+      document.getElementById("checkoutForm").style.display = "grid";
+      document.getElementById("orderConfirmation").classList.remove("show");
+      document.querySelector('#checkoutForm input[name="customer"]').focus();
+    }
+
+    document.getElementById("filters").addEventListener("click", event => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      activeCategory = button.dataset.category;
+      document.querySelectorAll(".filter-chip").forEach(chip => chip.classList.toggle("active", chip === button));
+      renderProducts();
+    });
+
+    document.getElementById("fruitSearch").addEventListener("input", renderProducts);
+    document.getElementById("productGrid").addEventListener("click", event => {
+      const button = event.target.closest("[data-add]");
+      if (button) addToCart(button.dataset.add);
+    });
+    document.querySelectorAll("[data-shop-category]").forEach(link => {
+      link.addEventListener("click", () => {
+        activeCategory = link.dataset.shopCategory;
+        document.querySelectorAll(".filter-chip").forEach(chip => chip.classList.toggle("active", chip.dataset.category === activeCategory));
+        renderProducts();
+      });
+    });
+    document.getElementById("cartItems").addEventListener("click", event => {
+      const button = event.target.closest("[data-quantity]");
+      if (!button) return;
+      const item = cart.find(entry => entry.id === button.dataset.quantity);
+      if (!item) return;
+      item.quantity += Number(button.dataset.change);
+      if (item.quantity <= 0) cart = cart.filter(entry => entry !== item);
+      updateCart();
+    });
+    document.getElementById("openCart").addEventListener("click", openCart);
+    document.getElementById("closeCart").addEventListener("click", closeCart);
+    document.getElementById("cartOverlay").addEventListener("click", event => {
+      if (event.target.id === "cartOverlay") closeCart();
+    });
+    document.getElementById("checkoutButton").addEventListener("click", openCheckout);
+    document.getElementById("closeCheckout").addEventListener("click", () => {
+      document.getElementById("checkoutModal").classList.remove("open");
+      document.getElementById("checkoutModal").setAttribute("aria-hidden", "true");
+    });
+    document.getElementById("cancelCheckout").addEventListener("click", () => {
+      document.getElementById("checkoutModal").classList.remove("open");
+      document.getElementById("checkoutModal").setAttribute("aria-hidden", "true");
+    });
+    document.getElementById("checkoutForm").addEventListener("submit", event => {
+      event.preventDefault();
+      const customer = new FormData(event.currentTarget).get("customer").toString().trim();
+      const orderTotal = cart.reduce((total, item) => {
+        const product = products.find(entry => entry.id === item.id);
+        return total + (product ? product.price * item.quantity : 0);
+      }, 0);
+      document.getElementById("checkoutForm").style.display = "none";
+      const confirmation = document.getElementById("orderConfirmation");
+      confirmation.innerHTML = `<strong>Thanks, ${customer}!</strong> Your order request for ${formatPrice(orderTotal)} is ready. This demo doesn’t send orders yet—connect a shop phone number or checkout service to receive customer orders.`;
+      confirmation.classList.add("show");
+      cart = [];
+      updateCart();
+    });
+    document.getElementById("contactForm").addEventListener("submit", event => {
+      event.preventDefault();
+      showToast("Thanks for reaching out! Connect a contact service to receive messages.");
+      event.currentTarget.reset();
+    });
+    document.getElementById("menuToggle").addEventListener("click", event => {
+      const links = document.getElementById("navLinks");
+      const isOpen = links.classList.toggle("open");
+      event.currentTarget.setAttribute("aria-expanded", String(isOpen));
+      event.currentTarget.textContent = isOpen ? "×" : "☰";
+    });
+    document.querySelectorAll("#navLinks a").forEach(link => link.addEventListener("click", () => {
+      document.getElementById("navLinks").classList.remove("open");
+      document.getElementById("menuToggle").setAttribute("aria-expanded", "false");
+      document.getElementById("menuToggle").textContent = "☰";
+    }));
+    document.addEventListener("keydown", event => {
+      if (event.key === "Escape") {
+        closeCart();
+        document.getElementById("checkoutModal").classList.remove("open");
+        document.getElementById("checkoutModal").setAttribute("aria-hidden", "true");
+      }
+    });
+
+    document.getElementById("year").textContent = new Date().getFullYear();
+    renderProducts();
+    updateCart();
+  </script>
+</body>
+</html>
